@@ -3,6 +3,53 @@ import "./App.css";
 
 function App() {
   const [input, setInput] = useState(" ");
+
+  const calculateResult = () => {
+  try {
+    const operators = ['+', '-', '*', '/', '%'];
+    let operator = null;
+
+    for (let i = 0; i < input.length; i++) {
+      if (operators.includes(input[i])) {
+        operator = input[i];
+        break;
+      }
+    }
+
+    if (!operator) {
+      setInput(parseFloat(input).toString());
+      return;
+    }
+
+    const [operand1, operand2] = input.split(operator).map((num) => parseFloat(num));
+    let result;
+
+    switch (operator) {
+      case '+':
+        result = operand1 + operand2;
+        break;
+      case '-':
+        result = operand1 - operand2;
+        break;
+      case '*':
+        result = operand1 * operand2;
+        break;
+      case '/':
+        result = operand2 !== 0 ? operand1 / operand2 : "Error";
+        break;
+      case '%':
+        result = operand1 % operand2;
+        break;
+      default:
+        throw new Error("Invalid operator");
+    }
+
+    setInput(result.toString());
+  } catch (error) {
+    setInput("Error");
+  }
+};
+
   const handleclick = (value) => {
     if (value === "c") {
       setInput("");
